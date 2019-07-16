@@ -1,4 +1,6 @@
 #include <bindings.h>
+-- TODO : appears to be necessary in 1.10.x.  Check backwards compatibility
+#include <H5Ipublic.h>
 #include <H5FDcore.h>
 
 -- |The POSIX unbuffered file driver using only the HDF5 public

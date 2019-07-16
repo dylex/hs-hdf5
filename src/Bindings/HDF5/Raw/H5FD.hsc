@@ -184,7 +184,11 @@ type H5FD_mem_t = H5F_mem_t
 -- the library will mark the superblock dirty when the file is opened
 -- R/W.  This will cause the driver info to be re-encoded when the file
 -- is flushed/closed.
+#if H5_VERSION_GE(1,10,0)
+#num H5FD_FEAT_DIRTY_DRVRINFO_LOAD
+#else
 #num H5FD_FEAT_DIRTY_SBLK_LOAD
+#endif
 
 #endif
 

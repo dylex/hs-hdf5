@@ -68,8 +68,9 @@ import Foreign.Ptr.Conventions
 -- TODO: I think HId_t should be parameterised over the element type and
 -- possibly also dimensionality of the dataset
 -- |Type of atoms to return to users
-newtype HId_t = HId_t Int32 deriving (Storable, Eq, Ord)
+newtype HId_t = HId_t (#type hid_t) deriving (Storable, Eq, Ord)
 
+-- TODO: Show assumes Int32 but it is Int64 in v1.10.x
 instance Show HId_t where
     showsPrec p (HId_t x) = showParen (p>10)
         ( showString "HId_t 0x"

@@ -119,7 +119,11 @@ import Foreign.Ptr.Conventions
 #starttype H5F_info_t
 
 -- |Superblock extension size
+#if H5_VERSION_GE(1,10,0)
+#field super.super_ext_size,  <hsize_t>
+#else
 #field super_ext_size,  <hsize_t>
+#endif
 
 -- |Shared object header message header size
 #field sohm.hdr_size,   <hsize_t>
@@ -168,7 +172,8 @@ import Foreign.Ptr.Conventions
 -- |Use the latest possible format available for storing objects
 #newtype_const H5F_libver_t, H5F_LIBVER_LATEST
 
-#if H5_VERSION_GE(1,8,6)
+-- H5F_LIBVER_18 is not defined for v1.10.x
+#if H5_VERSION_GE(1,8,6) && !H5_VERSION_GE(1,10,0)
 
 -- |Use version 1.8 format for storing objects
 #newtype_const H5F_libver_t, H5F_LIBVER_18
@@ -475,6 +480,7 @@ import Foreign.Ptr.Conventions
 -- Returns non-negative on success, negative on failure
 --
 -- > herr_t H5Fget_info(hid_t obj_id, H5F_info_t *bh_info);
+-- TODO : H5get_info is now a macro, we need to define H5Fget_info1 and H5Fget_info2
 #ccall H5Fget_info, <hid_t> -> Out H5F_info_t -> IO <herr_t>
 
 #if H5_VERSION_GE(1,8,7)
