@@ -533,7 +533,7 @@ h5e_push2 err_stack file func line cls_id maj_id min_id fmt [] =
 h5e_push2 (HId_t err_stack) file func line (HId_t cls_id) (HId_t maj_id) (HId_t min_id) fmt varargs =
     callFFI p_H5Epush2 retHErr_t args
     where
-        argHId_t = arg#type hid_t
+        argHId_t = argInt32 -- #type hid_t
         retHErr_t = fmap HErr_t (ret#type herr_t)
 
         args = argHId_t err_stack : argPtr file : argPtr func : argCUInt line
