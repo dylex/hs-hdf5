@@ -1,3 +1,4 @@
+{-# LANGUAGE PatternSynonyms #-}
 #include <bindings.h>
 #include <H5Fpublic.h>
 
@@ -116,14 +117,17 @@ import Foreign.Ptr.Conventions
 
 -- |Current "global" information about file
 -- (just size info currently)
+#if H5_VERSION_GE(1,10,0)
+type H5F_info_t = H5F_info1_t
+pattern H5F_info_t :: HSize_t -> HSize_t -> H5_ih_info_t -> H5F_info1_t
+pattern H5F_info_t a b c = H5F_info1_t a b c
+#starttype H5F_info1_t
+#else
 #starttype H5F_info_t
+#endif
 
 -- |Superblock extension size
-#if H5_VERSION_GE(1,10,0)
-#field super.super_ext_size,  <hsize_t>
-#else
 #field super_ext_size,  <hsize_t>
-#endif
 
 -- |Shared object header message header size
 #field sohm.hdr_size,   <hsize_t>
@@ -481,7 +485,13 @@ import Foreign.Ptr.Conventions
 --
 -- > herr_t H5Fget_info(hid_t obj_id, H5F_info_t *bh_info);
 -- TODO : H5get_info is now a macro, we need to define H5Fget_info1 and H5Fget_info2
+#if H5_VERSION_GE(1,10,0)
+#ccall H5Fget_info1, <hid_t> -> Out H5F_info1_t -> IO <herr_t>
+h5f_get_info :: HId_t -> Out H5F_info1_t -> IO HErr_t
+h5f_get_info = h5f_get_info1
+#else
 #ccall H5Fget_info, <hid_t> -> Out H5F_info_t -> IO <herr_t>
+#endif
 
 #if H5_VERSION_GE(1,8,7)
 -- |Releases the external file cache associated with the
