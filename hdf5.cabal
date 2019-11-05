@@ -107,10 +107,8 @@ Library
                       , primitive
                       , transformers
 
---  include-dirs:         include, /usr/local/include
-  include-dirs:         include, /Users/spascoe/.nix-profile/include
---  extra-lib-dirs:       /usr/local/lib
-  extra-lib-dirs:       /Users/spascoe/.nix-profile/lib
+  include-dirs:         include, /usr/local/include
+  extra-lib-dirs:       /usr/local/lib
   extra-libraries:      hdf5
 
 
