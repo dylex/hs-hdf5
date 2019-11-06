@@ -43,8 +43,10 @@ module Bindings.HDF5.Attribute
        , createAttribute
        , openAttribute
        , closeAttribute
+       , getAttributeSpace
+       , getAttributeType
        , readAttribute
-       , iterateAttributes
+       -- , iterateAttributes
        , deleteAttribute
        , getAttributeInfo
        ) where
@@ -64,6 +66,7 @@ import Foreign.Ptr.Conventions
 import Bindings.HDF5.Object
 import Bindings.HDF5.Datatype.Internal
 import Bindings.HDF5.Dataspace
+import qualified Data.Vector.Storable as SV
 
 
 -- * The Attribute type
@@ -102,13 +105,23 @@ openAttribute loc name =
 closeAttribute :: Attribute -> IO ()
 closeAttribute (Attribute attr_id) = withErrorCheck_ $ h5a_close attr_id
 
-readAttribute :: NativeType t => Attribute -> IO t
-readAttribute (Attribute attr_id) =
-  withOut_ $ \buf ->
-    withErrorCheck_ $ h5a_read attr_id (hdfTypeOf1 buf) (OutArray $ unwrapPtr buf) -- not really an array?
+getAttributeSpace :: Attribute -> IO Dataspace
+getAttributeSpace (Attribute attr_id) =
+  uncheckedFromHId <$> withErrorCheck (h5a_get_space attr_id)
 
-writeAttribute = undefined
-iterateAttributes = undefined
+getAttributeType :: Attribute -> IO Datatype
+getAttributeType (Attribute attr_id) =
+  Datatype <$> withErrorCheck (h5a_get_type attr_id)
+
+readAttribute :: NativeType t => Attribute -> IO (SV.Vector t)
+readAttribute attr@(Attribute attr_id) = do
+  s <- getAttributeSpace attr
+  n <- getSimpleDataspaceExtentNPoints s
+  withOutVector_ (fromIntegral n) $ \buf ->
+    withErrorCheck_ $ h5a_read attr_id (hdfTypeOf1 buf) buf
+
+--writeAttribute = undefined
+--iterateAttributes = undefined
 
 deleteAttribute :: Location loc => loc -> BS.ByteString -> IO ()
 deleteAttribute loc name = withErrorCheck_ $ BS.useAsCString name $ \cname ->
