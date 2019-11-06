@@ -38,7 +38,8 @@ Feature coverage:
 
 -}
 module Bindings.HDF5.Attribute
-       ( doesAttributeExist
+       ( Attribute
+       , doesAttributeExist
        , createAttribute
        , openAttribute
        , closeAttribute
@@ -101,7 +102,11 @@ openAttribute loc name =
 closeAttribute :: Attribute -> IO ()
 closeAttribute (Attribute attr_id) = withErrorCheck_ $ h5a_close attr_id
 
-readAttribute = undefined
+readAttribute :: NativeType t => Attribute -> IO t
+readAttribute (Attribute attr_id) =
+  withOut_ $ \buf ->
+    withErrorCheck_ $ h5a_read attr_id (hdfTypeOf1 buf) (OutArray $ unwrapPtr buf) -- not really an array?
+
 writeAttribute = undefined
 iterateAttributes = undefined
 

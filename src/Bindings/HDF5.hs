@@ -5,6 +5,7 @@ module Bindings.HDF5
     , module X
     ) where
 
+import Bindings.HDF5.Attribute as X
 import Bindings.HDF5.Core as X
 import Bindings.HDF5.Dataset as X
 import Bindings.HDF5.Dataspace as X
