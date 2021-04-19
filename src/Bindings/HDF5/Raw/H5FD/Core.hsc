@@ -28,11 +28,6 @@ h5fd_CORE :: HId_t
 -- > hid_t H5FD_core_init(void);
 #ccall H5FD_core_init, IO <hid_t>
 
--- |Shut down the VFD.
---
--- > void H5FD_core_term(void);
-#ccall H5FD_core_term, IO ()
-
 -- |Modify the file access property list to use the H5FD_CORE
 -- driver.  The 'increment' specifies how much to grow the memory
 -- each time we need more.
