@@ -41,8 +41,6 @@ import Bindings.HDF5.Raw.H5I
 -- should be transparent to users.
 #mangle_ident H5FD_windows_init :: IO HId_t
 #mangle_ident H5FD_windows_init = #mangle_ident H5FD_sec2_init
-#mangle_ident H5FD_windows_term :: IO ()
-#mangle_ident H5FD_windows_term = #mangle_ident H5FD_sec2_term
 
 #endif
 

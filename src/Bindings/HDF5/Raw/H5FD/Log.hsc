@@ -67,11 +67,6 @@ h5fd_LOG :: HId_t
 -- > hid_t H5FD_log_init(void);
 #ccall H5FD_log_init, IO <hid_t>
 
--- |Shut down the VFD.
---
--- > void H5FD_log_term(void);
-#ccall H5FD_log_term, IO ()
-
 -- TODO: evaluate the claim that "There are no driver-specific properties."  It appears to be patently false.
 -- |Modify the file access property list to use the H5FD_LOG
 -- driver.  There are no driver-specific properties.

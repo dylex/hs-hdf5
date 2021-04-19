@@ -32,11 +32,6 @@ h5fd_MULTI :: HId_t
 -- > hid_t H5FD_multi_init(void);
 #ccall H5FD_multi_init, IO <hid_t>
 
--- Shut down the VFD
---
--- > void H5FD_multi_term(void);
-#ccall H5FD_multi_term, IO ()
-
 -- TODO: find out whether input arrays need to be static... Probably not, since H5Pget_fapl_multi copies them out.
 -- |Sets the file access property list 'fapl_id' to use the multi
 -- driver. The 'memb_map' array maps memory usage types to other

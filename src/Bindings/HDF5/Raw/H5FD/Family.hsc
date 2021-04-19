@@ -37,11 +37,6 @@ h5fd_FAMILY :: HId_t
 -- > hid_t H5FD_family_init(void);
 #ccall H5FD_family_init, IO <hid_t>
 
--- |Shut down the VFD.
---
--- > void H5FD_family_term(void);
-#ccall H5FD_family_term, IO ()
-
 -- |Sets the file access property list 'fapl_id' to use the family
 -- driver. The 'memb_size' is the size in bytes of each file
 -- member (used only when creating a new file) and the

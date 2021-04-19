@@ -22,11 +22,6 @@ h5fd_STDIO :: HId_t
 -- > hid_t H5FD_stdio_init(void);
 #ccall H5FD_stdio_init, IO <hid_t>
 
--- |Shut down the VFD.
---
--- > void H5FD_stdio_term(void);
-#ccall H5FD_stdio_term, IO ()
-
 -- |Modify the file access property list to use the H5FD_STDIO
 -- driver.  There are no driver-specific properties.
 --
